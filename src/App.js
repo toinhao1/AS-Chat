@@ -16,6 +16,13 @@ import * as firebase from 'firebase';
   firebase.initializeApp(config);
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      currentRoom: 0
+    };
+  }
+
   render() {
     return (
       <div className="App">
@@ -24,7 +31,7 @@ class App extends Component {
         </header>
         <div>
           <ul>
-            <RoomList firebase={firebase}/>
+            <RoomList firebase={firebase} currentRoom={this.state.currentRoom}/>
           </ul>
         </div>
       </div>
