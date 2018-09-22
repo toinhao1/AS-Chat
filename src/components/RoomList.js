@@ -6,7 +6,7 @@ class RoomList extends Component {
     super(props);
     this.state = {
       rooms:[],
-      name: ''
+      newName: ''
     };
     this.roomsRef = this.props.firebase.database().ref('rooms');
   }
@@ -15,25 +15,23 @@ class RoomList extends Component {
       const room = snapshot.val();
       room.key = snapshot.key;
       this.setState({ rooms: this.state.rooms.concat( room ) });
+      if (this.state.rooms.length === 1) {this.props.setActiveRoom(room)}
     });
   }
-  handleChange(e) {
-    this.setState({ name: e.target.value});
-  }
-  createRoom(e) {
-    e.preventDefault();
-    const newRoom = this.state.name;
 
-    if (newRoom.length >= 1) {
-      this.roomsRef.push({
-        name: newRoom
-      });
-    }
-    this.name.value = '';
-    this.setState({ name: ' '}, () => this.updateRooms(this.props.currentRoom));
+  handleChange(e) {
+    this.setState({ newName: e.target.value });
   }
-  updateRooms(currentRoom) {
-    this.setState({ rooms: this.state.rooms, name: ''});
+  createRoom(newName) {
+    this.roomsRef.push({
+      name: newName,
+      createdAt: Date.now(),
+      });
+      this.setState({ newName: ' '});
+    }
+  handleSubmit(e) {
+    e.preventDefault();
+    this.createRoom(this.state.newName);
   }
 
   render() {
@@ -41,14 +39,14 @@ class RoomList extends Component {
       <section>
         <ul className="room-list">
           {this.state.rooms.map( ( room ) =>
-            <li key={room.key}>{room.name}</li>
+            <li key={room.key} onClick={() => this.props.setActiveRoom(room)}>{room.name}</li>
             )
           }
         </ul>
-        <form className="newChatRoom" onSubmit={this.createRoom.bind(this)}>
+        <form className="newChatRoom" onSubmit={(e) => {this.handleSubmit(e)}}>
           <label>
-            Create A New Chat Room:
-            <input type="text" ref={newRoom => this.name = newRoom} onChange={this.handleChange.bind(this)} />
+            Create A New Chat Room :
+            <input type="text" value={this.state.newName} onChange={this.handleChange.bind(this)} />
           </label>
           <input type="submit" value="Submit" />
         </form>
