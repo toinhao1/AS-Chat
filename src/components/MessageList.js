@@ -7,24 +7,26 @@ class MessgeList extends Component {
     super(props);
     this.state = {
       messages: [],
-      showingMessages: []
+      showMessages: []
     }
     this.messageRef = this.props.firebase.database().ref('messages');
   }
   componentDidMount() {
-    this.messageRef.on('child_added', snapshot => {
+    this.messageRef.on('child_added' , (snapshot) => {
       const message = snapshot.val();
       message.key = snapshot.key;
-      this.setState({ messages: this.state.messages.concat( message ) }, () => {
-        this.displayMessages(this.props.currentRoom)
-      });
-    });
+      this.setState({ messages: this.state.messages.concat(message)});
+    })
   }
-  receiveProps(nextProps){
-    this.displayMessages( nextProps.currentRoom)
+  receiveProps(nextProps) {
+    this.displayMessages( nextProps.currentRoom, nextProps.currentMesages);
   }
-  displayMessages(currentRoom) {
-    this.setState({ showingMessages: this.state.messages.filter( message => message.roomId === currentRoom.key )});
+
+  displayMessages(currentRoom, messages) {
+    const updateMessage = this.state.messages.filter(function(e){
+      return e.roomId === currentRoom
+    })
+    this.setState({currentMesages: messages})
   }
 
   render() {
@@ -34,10 +36,10 @@ class MessgeList extends Component {
         <div className="messagelist">
           <ul>
           {
-            this.state.showingMessages.map( (message) =>
-              <li key={message.key}>
-                <div>{message.content}</div>
+            this.state.messages.map( message  =>
+              <li key={message.key} onClick={() => this.props.setActiveRoom(message.roomId, message.key)}>
                 <div>{message.username}</div>
+                <div>{message.content}</div>
                 <div>{message.sentAt}</div>
               </li>
             )

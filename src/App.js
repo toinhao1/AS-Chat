@@ -19,12 +19,13 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      currentRoom: null
+      currentRoom: null,
+      currentMesages: null
     };
   }
 
-  setActiveRoom(room) {
-    this.setState({currentRoom: room});
+  setActiveRoom(room, message) {
+    this.setState({currentRoom: room, currentMesages: message});
   }
 
   render() {
@@ -42,7 +43,9 @@ class App extends Component {
         <div className="messagelist">
           <MessageList
           firebase={firebase}
-          currentRoom={this.state.currentRoom} />
+          currentRoom={this.state.currentRoom}
+          currentMesages={this.state.currentMesages}
+          setActiveRoom={(room, message) => this.setActiveRoom(room, message)}/>
         </div>
       </section>
     );
