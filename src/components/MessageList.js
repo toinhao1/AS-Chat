@@ -15,18 +15,17 @@ class MessgeList extends Component {
     this.messageRef.on('child_added' , (snapshot) => {
       const message = snapshot.val();
       message.key = snapshot.key;
-      this.setState({ messages: this.state.messages.concat(message)});
+      this.setState({ messages: this.state.messages.concat(message)}, () => {
+        this.displayMessages(this.props.currentRoom)
+      });
     })
   }
-  receiveProps(nextProps) {
-    this.displayMessages( nextProps.currentRoom, nextProps.currentMesages);
+  componentWillReceiveProps(nextProps) {
+    this.displayMessages(nextProps.currentRoom);
   }
 
-  displayMessages(currentRoom, messages) {
-    const updateMessage = this.state.messages.filter(function(e){
-      return e.roomId === currentRoom
-    })
-    this.setState({currentMesages: messages})
+  displayMessages(currentRoom) {
+    this.setState({showMessages: this.state.messages.filter(message => message.roomId === currentRoom.key)});
   }
 
   render() {
@@ -36,8 +35,8 @@ class MessgeList extends Component {
         <div className="messagelist">
           <ul>
           {
-            this.state.messages.map( message  =>
-              <li key={message.key} onClick={() => this.props.setActiveRoom(message.roomId, message.key)}>
+            this.state.showMessages.map( message  =>
+              <li key={message.key}>
                 <div>{message.username}</div>
                 <div>{message.content}</div>
                 <div>{message.sentAt}</div>
