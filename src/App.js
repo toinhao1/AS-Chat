@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import  RoomList  from './components/RoomList';
 import  MessageList  from './components/MessageList';
+import  User from './components/User';
 import * as firebase from 'firebase';
 
 // Initialize Firebase
@@ -20,9 +21,18 @@ class App extends Component {
     super(props);
     this.state = {
       currentRoom: null,
-      currentMesages: 0
+      currentMesages: 0,
+      user: null
     };
   }
+
+  setUser(user) {
+    if (user) {
+      this.setState({ user: user.displayName });
+    } else {
+      this.setState({user: "Guest"})
+    }
+   }
 
   setActiveRoom(room, message) {
     this.setState({currentRoom: room, currentMesages: message});
@@ -38,14 +48,22 @@ class App extends Component {
           <RoomList
           firebase={firebase}
           currentRoom={this.state.currentRoom}
-          setActiveRoom={this.setActiveRoom.bind(this)}/>
+          setActiveRoom={this.setActiveRoom.bind(this)}
+          user={this.state.user}/>
         </div>
         <div className="messagelist">
           <MessageList
           firebase={firebase}
           currentRoom={this.state.currentRoom}
           currentMesages={this.state.currentMesages}
-          setActiveRoom={(room, message) => this.setActiveRoom(room, message)}/>
+          setActiveRoom={(room, message) => this.setActiveRoom(room, message)}
+          user={this.state.user}/>
+        </div>
+        <div>
+          <User
+          firebase={firebase}
+          currentUsername={this.state.user}
+          setUser={(e) => this.setUser(e)}/>
         </div>
       </section>
     );
