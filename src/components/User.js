@@ -25,10 +25,8 @@ class User extends Component {
     return (
       <section className="user-sign-in">
         <div className="display-username">{this.props.currentUsername}</div>
-        <button onClick={ this.signIn }>Sign In
-        </button>
-        <button onClick={this.signOut}>Sign Out
-        </button>
+        <button onClick={ this.signIn }>Sign In</button>
+        <button onClick={this.signOut}>Sign Out</button>
       </section>
     );
   }
