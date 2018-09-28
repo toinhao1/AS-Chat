@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Moment from 'react-moment';
 
 
 
@@ -49,17 +50,19 @@ class MessageList extends Component {
       <section>
         <h2 className="current-room-name">{this.props.currentRoom ? this.props.currentRoom.name : ''}</h2>
         <div className="messagelist">
-          <ul>
+          <div>
           {
             this.state.showMessages.map( message  =>
-              <li key={message.key}>
+              <div key={message.key}>
                 <div>{message.username}</div>
                 <div>{message.content}</div>
-                <div>{message.sentAt}</div>
-              </li>
+                <Moment element="span" format="MM/DD/YY hh:mm A">
+                  {message.sentAt}
+                </Moment>
+              </div>
             )
           }
-          </ul>
+          </div>
           <form className="sending-messages" onSubmit={(e) => { e.preventDefault(); this.createMessage(this.state.newMessage)}}>
             <label>
               <input type="text" placeholder="Write your message" value={this.state.newMessage} onChange={this.handleChange.bind(this)}/>

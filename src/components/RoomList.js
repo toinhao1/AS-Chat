@@ -33,16 +33,32 @@ class RoomList extends Component {
     e.preventDefault();
     this.createRoom(this.state.newName);
   }
+  deleteRoom(currentRoom) {
+    const filteredRooms = this.state.rooms.filter(function(e) {
+      return e.key !== currentRoom;
+    });
+    this.setState({ rooms: filteredRooms});
+    this.roomsRef.child(currentRoom).remove()
+  }
+  componentWillUnmount(currentRoom) {
+    this.roomsRef.off('child_added', (snapshot) => {
+      const room = snapshot.val();
+      room.key = snapshot.key;
+      this.setState({ rooms: this.state.rooms.concat(room) });
+    });
+  }
 
   render() {
     return (
       <section>
-        <ul className="room-list">
+        <aside className="room-list">
           {this.state.rooms.map( ( room, index ) =>
-            <li key={room.key} onClick={() => this.props.setActiveRoom(room)}>{room.name}</li>
+            <div key={room.key} onClick={() => this.props.setActiveRoom(room)}>{room.name}
+            <button onClick={(e) => this.deleteRoom(room.key)}>Delete</button>
+            </div>
             )
           }
-        </ul>
+        </aside>
         <form className="newChatRoom" onSubmit={(e) => {this.handleSubmit(e)}}>
           <label>
             <input type="text" placeholder="Create New Room" value={this.state.newName} onChange={this.handleChange.bind(this)} />
