@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 
+
 class RoomList extends Component {
   constructor(props) {
     super(props);
@@ -51,19 +52,19 @@ class RoomList extends Component {
   render() {
     return (
       <section>
-        <aside className="room-list">
+        <div className="room-list">
           {this.state.rooms.map( ( room, index ) =>
             <div key={room.key} onClick={() => this.props.setActiveRoom(room)}>{room.name}
-            <button onClick={(e) => this.deleteRoom(room.key)}>Delete</button>
+            <button className="del-button" onClick={(e) => { if (window.confirm('Are you sure you wish to delete this room?')) this.deleteRoom(room.key)}}>Delete</button>
             </div>
             )
           }
-        </aside>
+        </div>
         <form className="newChatRoom" onSubmit={(e) => {this.handleSubmit(e)}}>
           <label>
-            <input type="text" placeholder="Create New Room" value={this.state.newName} onChange={this.handleChange.bind(this)} />
+            <input type="text" placeholder="Create a new room..."  value={this.state.newName} onChange={this.handleChange.bind(this)} />
           </label>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="New Room" />
         </form>
       </section>
     )

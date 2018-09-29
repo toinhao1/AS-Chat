@@ -54,9 +54,9 @@ class MessageList extends Component {
           {
             this.state.showMessages.map( message  =>
               <div key={message.key}>
-                <div>{message.username}</div>
-                <div>{message.content}</div>
-                <Moment element="span" format="MM/DD/YY hh:mm A">
+                <div className="username">{message.username}</div>
+                <div className="content">{message.content}</div>
+                <Moment className="message-time" element="span" format="MM/DD/YY hh:mm A">
                   {message.sentAt}
                 </Moment>
               </div>

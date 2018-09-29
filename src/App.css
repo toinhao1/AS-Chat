@@ -12,6 +12,7 @@
   height: 150px;
   padding: 20px;
   color: white;
+  text-align: center;
 }
 
 .App-title {
@@ -26,9 +27,58 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-.roomlist {
-  text-align: left;
+.container {
+    display: block;
+    position:absolute;
+    height:auto;
+    bottom:0;
+    top:0;
+    left:0;
+    right:0;
+    background-color: SlateGrey;
 }
-.messagelist {
-  text-align: right;
+.col_left {
+	background-color:#f4f4f4;
+	width:25%;
+	position:absolute;
+	left:0;
+  top:190px;
+	bottom:0;
+	display: block;
+	padding-left: 8px;
+}
+.col_right {
+	margin-left:26.25%;
+	margin-right: 4px;
+}
+.newChatRoom {
+  position: absolute;
+  bottom: 10px;
+}
+.sending-messages {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.message-time {
+  position: absolute;
+  right: 10px;
+  font-size: .75rem;
+  padding: .25rem;
+}
+.username {
+  color: #a0a0a0;
+  font-weight: bold;
+  padding-top: .15rem;
+  margin: 0;
+}
+
+.content {
+  display: inline-block;
+  font-size: 1rem;
+  padding-bottom: .5rem;
+}
+.del-button {
+  right: 10px;
+  position: absolute;
 }

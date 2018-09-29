@@ -4,6 +4,7 @@ import  RoomList  from './components/RoomList';
 import  MessageList  from './components/MessageList';
 import  User from './components/User';
 import * as firebase from 'firebase';
+import { Grid, Row, Col} from 'react-bootstrap';
 
 // Initialize Firebase
   const config = {
@@ -40,7 +41,7 @@ class App extends Component {
 
   render() {
     return (
-      <section className="App">
+      <div className="container">
         <header className="App-header">
           <h1>AS Chat</h1>
           <div>
@@ -50,24 +51,23 @@ class App extends Component {
             setUser={(e) => this.setUser(e)}/>
           </div>
         </header>
-      <div>
-          <div className="roomlist">
-            <RoomList
-              firebase={firebase}
-              currentRoom={this.state.currentRoom}
-              setActiveRoom={this.setActiveRoom.bind(this)}
-              user={this.state.user}/>
-          </div>
-          <div className="messagelist">
+      <div className="col_left">
+        <h2>Open Rooms</h2>
+          <RoomList
+          firebase={firebase}
+          currentRoom={this.state.currentRoom}
+          setActiveRoom={this.setActiveRoom.bind(this)}
+          user={this.state.user}/>
+      </div>
+      <div className="col_right">
             <MessageList
             firebase={firebase}
             currentRoom={this.state.currentRoom}
             currentMesages={this.state.currentMesages}
             setActiveRoom={(room, message) => this.setActiveRoom(room, message)}
             user={this.state.user}/>
-          </div>
-        </div>
-      </section>
+       </div>
+      </div>
     );
   }
 }
