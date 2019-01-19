@@ -1,6 +1,8 @@
 # Bloc Chat
 #### A real-time chat app built with React.js
 
+![screenshot] (bloc-chat/public/AS-Chat.png)
+
 ***
 
 ##### What I used:
