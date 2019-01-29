@@ -1,4 +1,4 @@
-# Bloc Chat
+# AS-Chat
 #### A real-time chat app built with React.js
 
 ![screenshot](/public/AS-Chat.png)
